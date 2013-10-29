@@ -1,11 +1,19 @@
-goutil
+goutil -> itertools
 ======
 
-To start we now have 2 versions of a Map function. 
-This allows us to iterate over Slice, Array and Map types
-and execute a function on each of the elements in those
-structures.
+Map - function which allows us to iterate over Slice, Array, chan and Map types
+      and execute a function on each of the elements in those
+      structures.
 
-We can also run a CMap version of this function
-which will loop and run the function concurrently
-using go routines.
+CMap - version of the Map function
+        which will loop and run the function concurrently
+        using go routines.
+
+Iterate - function which turns all typically
+            iterable objects into object accepted by the range command
+
+Range - function to create a generator
+          similar to the xrange python function.
+
+Pair - a type, which is
+        in line with the c++ Pair object
