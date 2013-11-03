@@ -16,14 +16,17 @@ func Iterate(l interface{}) (out chan Pair) {
 	go func() {
 		defer close(out)
 		valueOfIter := reflect.ValueOf(l)
+        k := valueOfIter.Kind()
 
-		if valueOfIter.Kind() == reflect.Ptr {
+		if k == reflect.Ptr {
 			valueOfIter = valueOfIter.Elem()
+            k = valueOfIter.Kind()
 		}
 
-		switch valueOfIter.Kind() {
+		switch k {
 		case reflect.Map:
-			for _, v := range valueOfIter.MapKeys() {
+
+            for _, v := range valueOfIter.MapKeys() {
 				out <- Pair{v.Interface(), valueOfIter.MapIndex(v).Interface()}
 			}
 
@@ -42,7 +45,7 @@ func Iterate(l interface{}) (out chan Pair) {
 			}
 
 		default:
-			panic(fmt.Sprintf("Iterate function does not support the type: %s", valueOfIter.Kind()))
+			panic(fmt.Sprintf("Iterate function does not support the type: %s", k))
 		}
 	}()
 	return
