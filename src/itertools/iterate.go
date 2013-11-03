@@ -2,6 +2,7 @@ package itertools
 
 import (
     "reflect"
+    "fmt"
 )
 
 type Pair struct {
@@ -15,6 +16,10 @@ func Iterate(l interface{}) (out chan Pair) {
     go func() {
         defer close(out)
         valueOfIter := reflect.ValueOf(l)
+
+        if valueOfIter.Kind() == reflect.Ptr {
+            valueOfIter = valueOfIter.Elem()
+        }
 
         switch valueOfIter.Kind() {
             case reflect.Map:
@@ -35,6 +40,9 @@ func Iterate(l interface{}) (out chan Pair) {
                     out <- Pair{i, v.Interface()}
 			        i++
                 }
+
+            default:
+                panic(fmt.Sprintf("Iterate function does not support the type: %s", valueOfIter.Kind()))
         }
     }()
 	return
