@@ -16,17 +16,17 @@ func Iterate(l interface{}) (out chan Pair) {
 	go func() {
 		defer close(out)
 		valueOfIter := reflect.ValueOf(l)
-        k := valueOfIter.Kind()
+		k := valueOfIter.Kind()
 
 		if k == reflect.Ptr {
 			valueOfIter = valueOfIter.Elem()
-            k = valueOfIter.Kind()
+			k = valueOfIter.Kind()
 		}
 
 		switch k {
 		case reflect.Map:
 
-            for _, v := range valueOfIter.MapKeys() {
+			for _, v := range valueOfIter.MapKeys() {
 				out <- Pair{v.Interface(), valueOfIter.MapIndex(v).Interface()}
 			}
 
