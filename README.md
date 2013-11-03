@@ -17,3 +17,10 @@ Range - function to create a generator
 
 Pair - a type, which is
         in line with the c++ Pair object
+        
+Filter - function which acts as a generator filtering the passed in iterable object of
+      values which do not equate to true according to the passed in 
+      evaluation function
+      
+CFilter - Same as Filter except it executes each iteration in a new go routine
+      so it filters in a more concurrent parallel manner.
