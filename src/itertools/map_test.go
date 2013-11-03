@@ -1,7 +1,7 @@
 package itertools
 
 import (
-    "testing"
+	"testing"
 )
 
 var f_called int = 0
@@ -18,42 +18,42 @@ func mf(i, v string) string {
 }
 
 func Test_MapSliceArray(t *testing.T) {
-    s := []string{"asdf","asdfasdf","geeeg","gggggggg"}
-    Map(s, f)
+	s := []string{"asdf", "asdfasdf", "geeeg", "gggggggg"}
+	Map(s, f)
 
-    if f_called != len(s) {
-        t.Errorf("func f was not called %d times", len(s))
-    }
+	if f_called != len(s) {
+		t.Errorf("func f was not called %d times", len(s))
+	}
 
-    f_called = 0
+	f_called = 0
 }
 
 func Test_MapMap(t *testing.T) {
-    m := map[string]string{"a":"asdf","b":"asdfasdf","c":"geeeg","d":"gggggggg"}
+	m := map[string]string{"a": "asdf", "b": "asdfasdf", "c": "geeeg", "d": "gggggggg"}
 	Map(m, mf)
 
-    if mf_called != len(m) {
-        t.Errorf("func mf was not called %d times", len(m))
-    }
-    mf_called = 0
+	if mf_called != len(m) {
+		t.Errorf("func mf was not called %d times", len(m))
+	}
+	mf_called = 0
 }
 
 func Test_CMapSliceArray(t *testing.T) {
-    s := []string{"asdf","asdfasdf","geeeg","gggggggg"}
-    CMap(s, f)
+	s := []string{"asdf", "asdfasdf", "geeeg", "gggggggg"}
+	CMap(s, f)
 
-    if f_called != len(s) {
-        t.Errorf("func f was not called %d times", len(s))
-    }
-    f_called = 0
+	if f_called != len(s) {
+		t.Errorf("func f was not called %d times", len(s))
+	}
+	f_called = 0
 }
 
 func Test_CMapMap(t *testing.T) {
-    m := map[string]string{"a":"asdf","b":"asdfasdf","c":"geeeg","d":"gggggggg"}
+	m := map[string]string{"a": "asdf", "b": "asdfasdf", "c": "geeeg", "d": "gggggggg"}
 	CMap(m, mf)
 
-    if mf_called != len(m) {
-        t.Errorf("func mf was not called %d times", len(m))
-    }
-    mf_called = 0
+	if mf_called != len(m) {
+		t.Errorf("func mf was not called %d times", len(m))
+	}
+	mf_called = 0
 }

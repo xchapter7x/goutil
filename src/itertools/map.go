@@ -1,28 +1,28 @@
 package itertools
 
 import (
-    "reflect"
-    "sync"
+	"reflect"
+	"sync"
 )
 
-func CMap( iter, f interface{} ) {
-    var wg sync.WaitGroup
+func CMap(iter, f interface{}) {
+	var wg sync.WaitGroup
 
-    for p := range Iterate(iter) {
-        wg.Add(1)
+	for p := range Iterate(iter) {
+		wg.Add(1)
 
-        go func(pp Pair){
-            defer wg.Done()
-            args := []reflect.Value{ reflect.ValueOf(pp.First), reflect.ValueOf(pp.Second) }
-            reflect.ValueOf(f).Call( args )
-        }(p)
-    }
-    wg.Wait()
+		go func(pp Pair) {
+			defer wg.Done()
+			args := []reflect.Value{reflect.ValueOf(pp.First), reflect.ValueOf(pp.Second)}
+			reflect.ValueOf(f).Call(args)
+		}(p)
+	}
+	wg.Wait()
 }
 
-func Map( iter, f interface{} ) {
-    for p := range Iterate(iter) {
-        args := []reflect.Value{ reflect.ValueOf(p.First), reflect.ValueOf(p.Second) }
-        reflect.ValueOf(f).Call( args )
-    }
+func Map(iter, f interface{}) {
+	for p := range Iterate(iter) {
+		args := []reflect.Value{reflect.ValueOf(p.First), reflect.ValueOf(p.Second)}
+		reflect.ValueOf(f).Call(args)
+	}
 }
