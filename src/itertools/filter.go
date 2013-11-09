@@ -6,7 +6,7 @@ import (
 )
 
 func Filter(iter interface{}, f func(first, second interface{}) bool) (out chan Pair) {
-	out = make(chan Pair)
+	out = make(chan Pair, GetIterBuffer())
 
 	go func() {
 		defer close(out)
@@ -23,7 +23,7 @@ func Filter(iter interface{}, f func(first, second interface{}) bool) (out chan 
 
 func CFilter(iter interface{}, f func(first, second interface{}) bool) (out chan Pair) {
 	var wg sync.WaitGroup
-	out = make(chan Pair)
+	out = make(chan Pair, GetIterBuffer())
 
 	go func() {
 		defer close(out)

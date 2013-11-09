@@ -11,7 +11,7 @@ type Pair struct {
 }
 
 func Iterate(l interface{}) (out chan Pair) {
-	out = make(chan Pair)
+	out = make(chan Pair, GetIterBuffer())
 
 	go func() {
 		defer close(out)

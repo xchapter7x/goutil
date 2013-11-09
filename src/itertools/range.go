@@ -1,7 +1,7 @@
 package itertools
 
 func Range(low, high int) (out chan int) {
-	out = make(chan int)
+	out = make(chan int, GetIterBuffer())
 
 	go func() {
 		defer close(out)
