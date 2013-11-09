@@ -4,56 +4,74 @@ import (
 	"testing"
 )
 
-var f_called int = 0
-var mf_called int = 0
+var (
+    f_called int
+    s []string
+    m map[string]string
+)
 
-func f(i int, v string) string {
-	f_called += 1
-	return v
+func Setup(){
+    f_called = 0
+	s = []string{"asdf", "asdfasdf", "geeeg", "gggggggg"}
+    m = map[string]string{"a": "asdf", "b": "asdfasdf", "c": "geeeg", "d": "gggggggg"}
 }
 
-func mf(i, v string) string {
-	mf_called += 1
-	return v
+func TearDown() {
+    Setup()
 }
 
 func Test_MapSliceArray(t *testing.T) {
-	s := []string{"asdf", "asdfasdf", "geeeg", "gggggggg"}
-	Map(s, f)
+    Setup()
+    defer TearDown()
+
+    Map(s, func (i int, v string) string {
+	    f_called += 1
+        return v
+    })
 
 	if f_called != len(s) {
 		t.Errorf("func f was not called %d times", len(s))
 	}
-
-	f_called = 0
 }
 
 func Test_MapMap(t *testing.T) {
-	m := map[string]string{"a": "asdf", "b": "asdfasdf", "c": "geeeg", "d": "gggggggg"}
-	Map(m, mf)
+	Setup()
+    defer TearDown()
 
-	if mf_called != len(m) {
+    Map(m, func (i, v string) string {
+        f_called += 1
+	    return v
+    })
+
+	if f_called != len(m) {
 		t.Errorf("func mf was not called %d times", len(m))
 	}
-	mf_called = 0
 }
 
 func Test_CMapSliceArray(t *testing.T) {
-	s := []string{"asdf", "asdfasdf", "geeeg", "gggggggg"}
-	CMap(s, f)
+    Setup()
+    defer TearDown()
+
+    CMap(s, func (i int, v string) string {
+	    f_called += 1
+        return v
+    })
 
 	if f_called != len(s) {
 		t.Errorf("func f was not called %d times", len(s))
 	}
-	f_called = 0
 }
 
 func Test_CMapMap(t *testing.T) {
-	m := map[string]string{"a": "asdf", "b": "asdfasdf", "c": "geeeg", "d": "gggggggg"}
-	CMap(m, mf)
+	Setup()
+    defer TearDown()
 
-	if mf_called != len(m) {
+    CMap(m, func (i, v string) string {
+        f_called += 1
+	    return v
+    })
+
+	if f_called != len(m) {
 		t.Errorf("func mf was not called %d times", len(m))
 	}
-	mf_called = 0
 }
