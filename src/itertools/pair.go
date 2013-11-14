@@ -1,7 +1,7 @@
 package itertools
 
 import (
-    "reflect"
+	"reflect"
 )
 
 type Pair struct {
@@ -10,13 +10,13 @@ type Pair struct {
 }
 
 func unpack(pairVal, ptr interface{}) {
-    ptrVal := reflect.ValueOf(ptr)
+	ptrVal := reflect.ValueOf(ptr)
 	ptrElem := ptrVal.Elem()
 	ptrElem.Set(reflect.ValueOf(pairVal))
 	ptr = ptrElem.Interface()
 }
 
 func PairUnPack(pair Pair, first, second interface{}) {
-    unpack(pair.First, first)
-    unpack(pair.Second, second)
+	unpack(pair.First, first)
+	unpack(pair.Second, second)
 }

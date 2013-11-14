@@ -1,13 +1,13 @@
 package itertools
 
 var (
-    iterBuffer int = 10
+	iterBuffer int = 10
 )
 
 func SetIterBuffer(buff int) {
-    iterBuffer = buff
+	iterBuffer = buff
 }
 
-func GetIterBuffer() (int) {
-    return iterBuffer
+func GetIterBuffer() int {
+	return iterBuffer
 }
