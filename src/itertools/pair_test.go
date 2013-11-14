@@ -2,7 +2,6 @@ package itertools
 
 import (
 	"testing"
-    "fmt"
 )
 
 var (
