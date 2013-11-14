@@ -5,11 +5,6 @@ import (
 	"reflect"
 )
 
-type Pair struct {
-	First  interface{}
-	Second interface{}
-}
-
 func Iterate(l interface{}) (out chan Pair) {
 	out = make(chan Pair, GetIterBuffer())
 
