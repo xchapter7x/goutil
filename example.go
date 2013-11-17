@@ -15,6 +15,12 @@ func mf(i, v string) string {
 	return v
 }
 
+func t(i interface{}) {
+    for x := range itertools.Iterate(i) {
+        fmt.Println(x)
+    }
+}
+
 func main() {
 	s := []string{"asdf", "asdfasdf", "geeeg", "gggggggg"}
 	m := map[string]string{"a": "asdf", "b": "asdfasdf", "c": "geeeg", "d": "gggggggg"}
@@ -47,4 +53,8 @@ func main() {
 	for i := range fC {
 		fmt.Println(i)
 	}
+
+    fmt.Println("lets iterate a string")
+
+    t("this is a test")
 }
