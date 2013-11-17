@@ -3,7 +3,7 @@ package itertools
 import (
 	"fmt"
 	"reflect"
-    "strings"
+	"strings"
 )
 
 func Iterate(l interface{}) (out chan Pair) {
@@ -40,12 +40,12 @@ func Iterate(l interface{}) (out chan Pair) {
 				i++
 			}
 
-        case reflect.String:
-            s := l.(string)
+		case reflect.String:
+			s := l.(string)
 
-            for i, v := range strings.Split(s,"") {
-                out <- Pair{i, v}
-            }
+			for i, v := range strings.Split(s, "") {
+				out <- Pair{i, v}
+			}
 
 		default:
 			panic(fmt.Sprintf("Iterate function does not support the type: %s", k))

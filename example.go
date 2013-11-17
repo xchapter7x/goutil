@@ -16,9 +16,9 @@ func mf(i, v string) string {
 }
 
 func t(i interface{}) {
-    for x := range itertools.Iterate(i) {
-        fmt.Println(x)
-    }
+	for x := range itertools.Iterate(i) {
+		fmt.Println(x)
+	}
 }
 
 func main() {
@@ -54,7 +54,7 @@ func main() {
 		fmt.Println(i)
 	}
 
-    fmt.Println("lets iterate a string")
+	fmt.Println("lets iterate a string")
 
-    t("this is a test")
+	t("this is a test")
 }
