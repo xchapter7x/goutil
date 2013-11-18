@@ -1,9 +1,9 @@
 package main
 
 import (
+	"container/list"
 	"fmt"
 	"itertools"
-    "container/list"
 )
 
 func f(i int, v string) string {
@@ -59,13 +59,12 @@ func main() {
 
 	t("this is a test")
 
-
-    l := list.New()
-    l.PushFront(1)
-    l.PushFront(2)
-    l.PushFront(3)
-    l.PushFront(4)
-    l.PushFront(5)
-    l.PushFront(6)
-    t(l)
+	l := list.New()
+	l.PushFront(1)
+	l.PushFront(2)
+	l.PushFront(3)
+	l.PushFront(4)
+	l.PushFront(5)
+	l.PushFront(6)
+	t(l)
 }
