@@ -56,21 +56,26 @@ func builtInIterate(l interface{}, out chan Pair) (isBuiltInType bool) {
 func containerIterate(l interface{}, out chan Pair) (isContainerType bool) {
 	isContainerType = true
 
-	switch t := l.(type) {
+	switch l.(type) {
 	case *list.List:
-		isContainerType = true
-		fmt.Println("we will have List support shortly", t, out)
+		iterateList(l.(*list.List), out)
 
 	case *ring.Ring:
-		isContainerType = true
-		fmt.Println("we will have Ring support shortly", t, out)
+		iterateRing(l.(*ring.Ring), out)
 
 	default:
 		isContainerType = false
-
 	}
 
 	return
+}
+
+func iterateList(lst *list.List, out chan Pair) {
+    fmt.Println("we will have List support shortly", lst, out)
+}
+
+func iterateRing(rng *ring.Ring, out chan Pair) {
+    fmt.Println("we will have Ring support shortly", rng, out)
 }
 
 func iterateString(s string, out chan Pair) {
