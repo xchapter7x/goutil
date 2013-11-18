@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"itertools"
+    "container/list"
 )
 
 func f(i int, v string) string {
@@ -57,4 +58,14 @@ func main() {
 	fmt.Println("lets iterate a string")
 
 	t("this is a test")
+
+
+    l := list.New()
+    l.PushFront(1)
+    l.PushFront(2)
+    l.PushFront(3)
+    l.PushFront(4)
+    l.PushFront(5)
+    l.PushFront(6)
+    t(l)
 }
