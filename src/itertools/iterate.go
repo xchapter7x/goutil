@@ -71,21 +71,21 @@ func containerIterate(l interface{}, out chan Pair) (isContainerType bool) {
 }
 
 func iterateList(lst *list.List, out chan Pair) {
-    elem := lst.Front()
+	elem := lst.Front()
 
-    for i := 0; i < lst.Len(); i++ {
-        out <- Pair{i, elem.Value}
-        elem = elem.Next()
-    }
+	for i := 0; i < lst.Len(); i++ {
+		out <- Pair{i, elem.Value}
+		elem = elem.Next()
+	}
 }
 
 func iterateRing(rng *ring.Ring, out chan Pair) {
-    i := 0
+	i := 0
 
-    rng.Do(func(ringCurrent interface{}) {
-        out <- Pair{i, ringCurrent}
-        i++
-    })
+	rng.Do(func(ringCurrent interface{}) {
+		out <- Pair{i, ringCurrent}
+		i++
+	})
 }
 
 func iterateString(s string, out chan Pair) {
