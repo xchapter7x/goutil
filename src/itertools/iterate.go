@@ -80,7 +80,12 @@ func iterateList(lst *list.List, out chan Pair) {
 }
 
 func iterateRing(rng *ring.Ring, out chan Pair) {
-    fmt.Println("we will have Ring support shortly", rng, out)
+    i := 0
+
+    rng.Do(func(ringCurrent interface{}) {
+        out <- Pair{i, ringCurrent}
+        i++
+    })
 }
 
 func iterateString(s string, out chan Pair) {

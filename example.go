@@ -2,6 +2,7 @@ package main
 
 import (
 	"container/list"
+    "container/ring"
 	"fmt"
 	"itertools"
 )
@@ -55,9 +56,11 @@ func main() {
 		fmt.Println(i)
 	}
 
-	fmt.Println("lets iterate a string")
+	fmt.Println("\n\nlets iterate a string")
 
 	t("this is a test")
+
+    fmt.Println("\n\nlets iterate a list")
 
 	l := list.New()
 	l.PushFront(1)
@@ -67,4 +70,15 @@ func main() {
 	l.PushFront(5)
 	l.PushFront(6)
 	t(l)
+
+    fmt.Println("\n\nlets iterate a ring")
+
+    r := ring.New(10)
+    z := 100
+    r.Value = z
+    for p := r.Next(); p != r; p = p.Next() {
+        z -= 10
+        p.Value = z
+    }
+	t(r)
 }
