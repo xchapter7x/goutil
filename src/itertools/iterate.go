@@ -97,7 +97,7 @@ func iterateString(s string, out chan Pair) {
 func iterateChan(valueOfIter reflect.Value, out chan Pair) {
 	i := 0
 
-	for v, ok := valueOfIter.Recv(); ok; {
+	for v, ok := valueOfIter.Recv(); ok; v, ok = valueOfIter.Recv() {
 		out <- Pair{i, v.Interface()}
 		i++
 	}
