@@ -15,6 +15,30 @@ func TearDownIterate() {
 }
 
 func Test_IterateMap(t *testing.T) {
+    controlSlice := make(map[int]string)
+    for i, v := range strings.Split("this is a test", "") {
+        controlSlice[i] = v
+    }
+	controlIndex := 0
+
+	for i := range Iterate(controlSlice) {
+        var first int
+        var second string
+        PairUnPack(i, &first, &second)
+
+		if second != controlSlice[first] {
+			t.Errorf("Index of iterate %d is not equal to control index of %d", second, controlSlice[first])
+		}
+
+        controlIndex++;
+	}
+
+	if controlIndex != len(controlSlice) {
+		t.Errorf("Number of iteratesion %d should be equal to string length %d", controlIndex, len(controlSlice))
+	}
+}
+
+func Test_IterateRing(t *testing.T) {
 
 }
 
@@ -122,8 +146,4 @@ func Test_IterateList(t *testing.T) {
 	if controlIndex != l.Len() {
 		t.Errorf("Number of iteratesion %d should be equal to string length %d", controlIndex, l.Len())
 	}
-}
-
-func Test_IterateRing(t *testing.T) {
-
 }
