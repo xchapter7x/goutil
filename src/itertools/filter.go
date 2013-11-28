@@ -6,10 +6,14 @@ import (
 )
 
 func Filter(iter interface{}, f func(first, second interface{}) bool) (out chan Pair) {
+    var wg sync.WaitGroup
 	out = make(chan Pair, GetIterBuffer())
+    wg.Add(1)
 
 	go func() {
 		defer close(out)
+        defer wg.Done()
+
 		for p := range Iterate(iter) {
 			args := []reflect.Value{reflect.ValueOf(p.First), reflect.ValueOf(p.Second)}
 
@@ -18,21 +22,25 @@ func Filter(iter interface{}, f func(first, second interface{}) bool) (out chan 
 			}
 		}
 	}()
+    wg.Wait()
 	return
 }
 
 func CFilter(iter interface{}, f func(first, second interface{}) bool) (out chan Pair) {
-	var wg sync.WaitGroup
+	var wg1 sync.WaitGroup
 	out = make(chan Pair, GetIterBuffer())
+    wg1.Add(1)
 
 	go func() {
 		defer close(out)
+        defer wg1.Done()
+        var wg2 sync.WaitGroup
 
 		for p := range Iterate(iter) {
-			wg.Add(1)
+			wg2.Add(1)
 
 			go func(pp Pair) {
-				defer wg.Done()
+				defer wg2.Done()
 				args := []reflect.Value{reflect.ValueOf(pp.First), reflect.ValueOf(pp.Second)}
 
 				if reflect.ValueOf(f).Call(args)[0].Bool() {
@@ -40,7 +48,8 @@ func CFilter(iter interface{}, f func(first, second interface{}) bool) (out chan
 				}
 			}(p)
 		}
-		wg.Wait()
+		wg2.Wait()
 	}()
+    wg1.Wait()
 	return
 }

@@ -7,14 +7,6 @@ import (
 	"testing"
 )
 
-func SetupIterate() {
-
-}
-
-func TearDownIterate() {
-	SetupIterate()
-}
-
 func Test_IterateMap(t *testing.T) {
 	controlSlice := make(map[int]string)
 	for i, v := range strings.Split("this is a test", "") {
