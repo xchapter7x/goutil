@@ -2,6 +2,7 @@ package itertools
 
 import (
 	"container/list"
+	"container/ring"
 	"strings"
 	"testing"
 )
@@ -39,7 +40,23 @@ func Test_IterateMap(t *testing.T) {
 }
 
 func Test_IterateRing(t *testing.T) {
+	controlLow := 1
+	controlHigh := 10
+	r := ring.New(controlHigh)
+	z := controlLow
+	r.Value = z
 
+	for p := r.Next(); p != r; p = p.Next() {
+		z++
+		p.Value = z
+	}
+
+	for p := controlLow; p != controlHigh+1; p++ {
+		if r.Value != p {
+			t.Errorf("the value of this ring record is %d but should be %d", r.Value, p)
+		}
+		r = r.Next()
+	}
 }
 
 func Test_IterateArray(t *testing.T) {
