@@ -19,8 +19,13 @@ Pair - a type, which is
         in line with the c++ Pair object
         
 Filter - function which acts as a generator filtering the passed in iterable object of
-      values which do not equate to true according to the passed in 
+      values which do equate to true according to the passed in 
       evaluation function
+
+CFilter - concurrent version of Filter using go routines
       
-CFilter - Same as Filter except it executes each iteration in a new go routine
-      so it filters in a more concurrent parallel manner.
+FilterFalse - function which acts as a generator filtering the passed in iterable object of 
+      values which do not equate to true according to the passed in evaluation function
+      ( this function has the exact opposite effect as Filter )
+
+CFilterFalse - concurrent cersion of FilterFalse using go routines
