@@ -49,6 +49,38 @@ func Test_Filter(t *testing.T) {
 	}
 }
 
+func Test_CFilterFalse(t *testing.T) {
+	SetupFilter()
+	defer TearDownFilter()
+
+	f := CFilterFalse(filterTestData, func(i, v interface{}) bool {
+		return findInStringArray(v.(string), filterWhiteList)
+	})
+
+	for r := range f {
+
+		if findInStringArray(r.Second.(string), filterWhiteList) {
+			t.Errorf("Error: %s should have been filtered, but it was not ", r)
+		}
+	}
+}
+
+func Test_FilterFalse(t *testing.T) {
+	SetupFilter()
+	defer TearDownFilter()
+
+	f := FilterFalse(filterTestData, func(i, v interface{}) bool {
+		return findInStringArray(v.(string), filterWhiteList)
+	})
+
+	for r := range f {
+
+		if findInStringArray(r.Second.(string), filterWhiteList) {
+			t.Errorf("Error: %s should have been filtered, but it was not ", r)
+		}
+	}
+}
+
 func findInStringArray(v string, a []string) (r bool) {
 	r = false
 
