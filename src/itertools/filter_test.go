@@ -1,62 +1,62 @@
 package itertools
 
 import (
-    "testing"
+	"testing"
 )
 
 var filterTestData []string
 var filterWhiteList []string
 
 func SetupFilter() {
-    filterTestData = []string{"asdf", "asdfasdf", "geeeg", "gggggggg"}
-    filterWhiteList = []string{"asdfasdf", "geeeg"}
+	filterTestData = []string{"asdf", "asdfasdf", "geeeg", "gggggggg"}
+	filterWhiteList = []string{"asdfasdf", "geeeg"}
 }
 
 func TearDownFilter() {
 	filterTestData = []string{}
-    filterWhiteList = []string{}
+	filterWhiteList = []string{}
 }
 
 func Test_CFilter(t *testing.T) {
-    SetupFilter()
-    defer TearDownFilter()
+	SetupFilter()
+	defer TearDownFilter()
 
-    f := CFilter(filterTestData, func(i, v interface{}) bool {
-        return findInStringArray(v.(string), filterWhiteList)
-    })
+	f := CFilter(filterTestData, func(i, v interface{}) bool {
+		return findInStringArray(v.(string), filterWhiteList)
+	})
 
-    for r := range f {
+	for r := range f {
 
-        if !findInStringArray(r.Second.(string), filterWhiteList) {
-            t.Errorf("Error: %s should have been filtered, but it was not ", r)
-        }
-    }
+		if !findInStringArray(r.Second.(string), filterWhiteList) {
+			t.Errorf("Error: %s should have been filtered, but it was not ", r)
+		}
+	}
 }
 
 func Test_Filter(t *testing.T) {
-    SetupFilter()
-    defer TearDownFilter()
+	SetupFilter()
+	defer TearDownFilter()
 
-    f := Filter(filterTestData, func(i, v interface{}) bool {
-        return findInStringArray(v.(string), filterWhiteList)
-    })
+	f := Filter(filterTestData, func(i, v interface{}) bool {
+		return findInStringArray(v.(string), filterWhiteList)
+	})
 
-    for r := range f {
+	for r := range f {
 
-        if !findInStringArray(r.Second.(string), filterWhiteList) {
-            t.Errorf("Error: %s should have been filtered, but it was not ", r)
-        }
-    }
+		if !findInStringArray(r.Second.(string), filterWhiteList) {
+			t.Errorf("Error: %s should have been filtered, but it was not ", r)
+		}
+	}
 }
 
-func findInStringArray(v string, a []string) (r bool){
-    r = false
+func findInStringArray(v string, a []string) (r bool) {
+	r = false
 
-    for _, i := range a {
+	for _, i := range a {
 
-        if v == i {
-            r = true
-        }
-    }
-    return
+		if v == i {
+			r = true
+		}
+	}
+	return
 }
