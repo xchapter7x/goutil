@@ -81,4 +81,9 @@ func main() {
 		p.Value = z
 	}
 	t(r)
+
+    fmt.Println("test the ziplong")
+    for z := range itertools.ZipLongest("-", "abcdefghijk", "ABCde", "aBCDefg") {
+        fmt.Println(z)
+    }
 }

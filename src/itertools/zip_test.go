@@ -1,0 +1,5 @@
+package itertools
+
+import (
+	"testing"
+)
