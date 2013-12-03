@@ -29,3 +29,5 @@ FilterFalse - function which acts as a generator filtering the passed in iterabl
       ( this function has the exact opposite effect as Filter )
 
 CFilterFalse - concurrent cersion of FilterFalse using go routines
+
+ZipLongest - Make an iterator that aggregates elements from each of the iterables. If the iterables are of uneven length,       missing values are filled-in with fillvalue. Iteration continues until the longest iterable is exhausted
