@@ -37,7 +37,7 @@ func TearDownZip() {
     controlSample3 = ""
 }
 
-func Test_Zip(t *testing.T) {
+func Test_ZipLogest(t *testing.T) {
 	SetupZip()
 	defer TearDownZip()
     count := 0
