@@ -25,8 +25,10 @@ func ZipLongest(fillValue string, args ...interface{}) (out chan []interface{}) 
             var row []interface{}
 
             for _, a := range argsSlice {
+
                 if len(a)-1 >= i {
                     row = append(row, a[i])
+
                 } else {
                     row = append(row, fillValue)
                 }
