@@ -57,3 +57,24 @@ func Test_ZipLogest(t *testing.T) {
         t.Errorf("Error: %d should match the longest dataset w/ %d ", count, len(controlSample1))
     }
 }
+
+func Test_Zip(t *testing.T) {
+	SetupZip()
+	defer TearDownZip()
+    count := 0
+
+    for z := range Zip(controlFill, controlSample1, controlSample2, controlSample3) {
+
+        for i := range controlZipped[count] {
+
+            if controlZipped[count][i] != z[i].(string) {
+                t.Errorf("Error: %s should match the control zipped dataset string w/ %s ", z[i].(string), controlZipped[count][i])
+            }
+        }
+        count++
+    }
+
+    if count != len(controlSample2) {
+        t.Errorf("Error: %d should match the shortest dataset w/ %d ", count, len(controlSample1))
+    }
+}
