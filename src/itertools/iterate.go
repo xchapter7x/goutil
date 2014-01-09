@@ -15,7 +15,7 @@ func Iterate(l interface{}) (out chan Pair) {
 		defer close(out)
 
 		if !builtInIterate(l, out) && !containerIterate(l, out) {
-            panic(fmt.Sprintf("Iterate function does not support the type: %s", l))
+			panic(fmt.Sprintf("Iterate function does not support the type: %s", l))
 		}
 	}()
 	return
