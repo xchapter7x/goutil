@@ -2,7 +2,7 @@ goutil -> itertools
 ======
 
 Iterate - function which turns all typically
-            iterable objects into object accepted by the range command
+            iterable objects into object accepted by the range function
 
 Range - function to create a generator
           similar to the xrange python function.
