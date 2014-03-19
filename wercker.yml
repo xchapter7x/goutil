@@ -9,7 +9,7 @@ build:
     - script:
         name: go get cover
         code: |
-          go get code.google.com/p/go.tools/cmd/cover
+          sudo go get code.google.com/p/go.tools/cmd/cover
           
     # Gets the dependencies
     - script:
