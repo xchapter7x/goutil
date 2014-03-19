@@ -5,7 +5,12 @@ build:
     # Sets the go workspace and places you package
     # at the right place in the workspace tree
     - setup-go-workspace
-
+    
+    - script:
+        name: go get cover
+        code: |
+          go get code.google.com/p/go.tools/cmd/cover
+          
     # Gets the dependencies
     - script:
         name: go get
@@ -25,3 +30,9 @@ build:
         name: go test
         code: |
           go test ./src/itertools/...
+    
+    # Test coverage for the project
+    - script:
+        name: go test cover
+        code: |
+          go test ./src/itertools/... -cover
