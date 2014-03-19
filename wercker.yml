@@ -12,16 +12,16 @@ build:
         code: |
           cd $WERCKER_SOURCE_DIR
           go version
-          go get -t ./...
+          go get -t src/itertools/...
 
     # Build the project
     - script:
         name: go build
         code: |
-          go build ./...
+          go build src/itertools/...
 
     # Test the project
     - script:
         name: go test
         code: |
-          go test ./...
+          go test src/itertools/...
