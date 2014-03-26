@@ -14,7 +14,7 @@ func Iterate(l interface{}) (out chan Pair) {
 	go func() {
 		defer close(out)
 
-		if !builtInIterate(l, out) && !containerIterate(l, out) {
+		if !builtInIterate(l, out) {
 			panic(fmt.Sprintf("Iterate function does not support the type: %s", l))
 		}
 	}()
@@ -45,7 +45,7 @@ func builtInIterate(l interface{}, out chan Pair) (isBuiltInType bool) {
 		iterateString(l.(string), out)
 
 	default:
-		isBuiltInType = false
+		isBuiltInType = containerIterate(l, out)
 	}
 
 	return
