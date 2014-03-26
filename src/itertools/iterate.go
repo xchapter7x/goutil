@@ -21,8 +21,8 @@ func Iterate(l interface{}) (out chan Pair) {
 	return
 }
 
-func builtInIterate(l interface{}, out chan Pair) (isBuiltInType bool) {
-	isBuiltInType = true
+func builtInIterate(l interface{}, out chan Pair) (isSupportedType bool) {
+	isSupportedType = true
 	valueOfIter := reflect.ValueOf(l)
 	k := valueOfIter.Kind()
 
@@ -45,7 +45,7 @@ func builtInIterate(l interface{}, out chan Pair) (isBuiltInType bool) {
 		iterateString(l.(string), out)
 
 	default:
-		isBuiltInType = containerIterate(l, out)
+		isSupportedType = containerIterate(l, out)
 	}
 
 	return
