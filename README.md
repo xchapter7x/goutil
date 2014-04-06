@@ -1,4 +1,6 @@
 goutil -> itertools
+
+[![wercker status](https://app.wercker.com/status/092b6dbc492403c29b16676d5c5d5861/m/ "wercker status")](https://app.wercker.com/project/bykey/092b6dbc492403c29b16676d5c5d5861)
 ======
 
 Iterate - function which turns all typically
