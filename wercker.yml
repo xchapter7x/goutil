@@ -30,4 +30,4 @@ build:
     - script:
         name: go test cover
         code: |
-          ./testCoverage
+          ./testCoverage ./src/itertools/... 90

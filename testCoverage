@@ -1,6 +1,6 @@
 #!/bin/bash
-WATERMARK=90;
-COVEROUT=`go test -cover ./src/itertools/...`;
+WATERMARK=$2;
+COVEROUT=`go test -cover $1`;
 arrIN=(${COVEROUT/// });
 COVERLEVEL=`echo ${arrIN[4]} | tr "%" " "`;
 COVERLEVEL=${COVERLEVEL/.*};
