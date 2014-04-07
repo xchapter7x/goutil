@@ -3,7 +3,7 @@ WATERMARK=90;
 COVEROUT=`go test -cover ./src/itertools/...`;
 arrIN=(${COVEROUT/// });
 COVERLEVEL=`echo ${arrIN[4]} | tr "%" " "`;
-COVERLEVEL=`awk -v vpct="$COVERLEVEL" 'BEGIN{print vpct * 1}'`;
+COVERLEVEL=${COVERLEVEL/.*};
 echo "Coverage - ${COVERLEVEL}%";
 echo "Watermark- ${WATERMARK}%";
 if [[ $COVERLEVEL -lt $WATERMARK ]]; then (exit 1); fi
