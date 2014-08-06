@@ -5,7 +5,7 @@ import (
 	"sync"
 )
 
-func CMap(iter, f interface{}) {
+func CEach(iter, f interface{}) {
 	var wg sync.WaitGroup
 
 	for p := range Iterate(iter) {
@@ -20,7 +20,7 @@ func CMap(iter, f interface{}) {
 	wg.Wait()
 }
 
-func Map(iter, f interface{}) {
+func Each(iter, f interface{}) {
 	for p := range Iterate(iter) {
 		args := []reflect.Value{reflect.ValueOf(p.First), reflect.ValueOf(p.Second)}
 		reflect.ValueOf(f).Call(args)

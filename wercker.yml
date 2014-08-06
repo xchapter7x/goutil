@@ -12,22 +12,16 @@ build:
         code: |
           cd $WERCKER_SOURCE_DIR
           go version
-          go get ./src/itertools/...
-
-    # Build the project
-    - script:
-        name: go build
-        code: |
-          go build ./src/itertools/...
+          go get github.com/tools/godep
 
     # Test the project
     - script:
         name: go test
         code: |
-          go test ./src/itertools/...
-    
+          godep go test ./itertools
+
     # Test coverage for the project
     - script:
         name: go test cover
         code: |
-          ./testCoverage ./src/itertools/... 90
+          ./testCoverage ./itertools 90

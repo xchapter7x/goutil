@@ -4,7 +4,7 @@ import (
 	"container/list"
 	"container/ring"
 	"fmt"
-	"itertools"
+	"github.com/xchapter7x/goutil/itertools"
 )
 
 func f(i int, v string) string {
@@ -26,11 +26,11 @@ func t(i interface{}) {
 func main() {
 	s := []string{"asdf", "asdfasdf", "geeeg", "gggggggg"}
 	m := map[string]string{"a": "asdf", "b": "asdfasdf", "c": "geeeg", "d": "gggggggg"}
-	itertools.Map(&s, f)
-	itertools.Map(&m, mf)
+	itertools.Each(&s, f)
+	itertools.Each(&m, mf)
 	fmt.Println("\n\nbegin concurrent map\n\n")
-	itertools.CMap(s, f)
-	itertools.CMap(m, mf)
+	itertools.CEach(s, f)
+	itertools.CEach(m, mf)
 
 	fmt.Println("\n\nFilter Sample\n\n")
 

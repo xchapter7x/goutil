@@ -1,0 +1,5 @@
+{
+	"ImportPath": "github.com/xchapter7x/goutil",
+	"GoVersion": "go1.3",
+	"Deps": []
+}
