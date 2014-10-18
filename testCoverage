@@ -10,5 +10,5 @@ for COVERLEVEL in ${COVERLEVELS};do
     COVERLEVEL=${COVERLEVEL/.*};
     echo "Coverage - ${COVERLEVEL}%";
     echo "Watermark- ${WATERMARK}%";
-    if (( $COVERLEVEL == $WATERMARK )); then (exit 1); fi
+    if (( $COVERLEVEL < $WATERMARK )); then echo "failed"; (exit 1); fi
 done
