@@ -5,29 +5,39 @@ import (
 	"reflect"
 )
 
-func Unpack(arr []interface{}, args ...interface{}) (err error) {
-	return UnpackArray(arr, args)
+func Unpack(packedValues []interface{}, unpackedPointers ...interface{}) (err error) {
+	return UnpackArray(packedValues, unpackedPointers)
 }
 
-func UnpackArray(arr []interface{}, args []interface{}) (err error) {
+func UnpackArray(packedValues []interface{}, unpackedPointers []interface{}) (err error) {
+	packedValuesLen := len(packedValues)
+	unpackedPointersLen := len(unpackedPointers)
 
-	if len(arr) == len(args) {
-
-		for i, v := range arr {
-			ptrVal := reflect.ValueOf((args)[i])
-			ptrElem := ptrVal.Elem()
-
-			if ptrElem.Kind() == reflect.ValueOf(v).Kind() {
-				ptrElem.Set(reflect.ValueOf(v))
-				(args)[i] = ptrElem.Interface()
-
-			} else {
-				err = fmt.Errorf("Incorrect pointer type %s != %s", ptrElem.Kind(), reflect.ValueOf(v).Kind())
-			}
-		}
+	if packedValuesLen == unpackedPointersLen {
+		err = mapPackedValuesToUnpackedPointers(packedValues, unpackedPointers)
 
 	} else {
-		err = fmt.Errorf("Incorrect argument count: pointers dont match response element count %s != %s", len(arr), len(args))
+		err = fmt.Errorf("Incorrect argument count: pointers dont match response element count %s != %s", packedValuesLen, unpackedPointersLen)
+	}
+	return
+}
+
+func mapPackedValuesToUnpackedPointers(packedValues []interface{}, unpackedPointers []interface{}) (err error) {
+
+	for i, packedValue := range packedValues {
+		ptrVal := reflect.ValueOf((unpackedPointers)[i])
+		ptrElem := ptrVal.Elem()
+		ptrElemKind := ptrElem.Kind()
+		packedValueReflectValue := reflect.ValueOf(packedValue)
+		packedValueReflectValueKind := packedValueReflectValue.Kind()
+
+		if ptrElemKind == packedValueReflectValueKind {
+			ptrElem.Set(packedValueReflectValue)
+			(unpackedPointers)[i] = ptrElem.Interface()
+
+		} else {
+			err = fmt.Errorf("Incorrect pointer type %s != %s", ptrElemKind, packedValueReflectValueKind)
+		}
 	}
 	return
 }
