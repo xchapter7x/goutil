@@ -1,4 +1,4 @@
-package itertools
+package goutil
 
 import "reflect"
 
@@ -32,5 +32,12 @@ func CallChain(preverr error, functor interface{}, iargs ...interface{}) (respon
 		responseInterfaceArray = createInterfaceArrayFromValuesArray(responseValuesArray)
 		err = findErrorValue(responseInterfaceArray)
 	}
+	return
+}
+
+func CallChainP(preverr error, responseInterfaceArray []interface{}, functor interface{}, iargs ...interface{}) (err error) {
+	res, err := CallChain(preverr, functor, iargs...)
+	_, err = CallChain(err, UnpackArray, res, responseInterfaceArray)
+	_, err = CallChain(err, findErrorValue, responseInterfaceArray)
 	return
 }

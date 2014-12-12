@@ -1,11 +1,11 @@
-package itertools_test
+package goutil_test
 
 import (
 	"fmt"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	. "github.com/xchapter7x/goutil/itertools"
+	. "github.com/xchapter7x/goutil"
 )
 
 var _ = Describe("CallChain", func() {
@@ -42,6 +42,35 @@ var _ = Describe("CallChain", func() {
 	var runNoError func() string = func() string {
 		return sampleSuccessReturn
 	}
+
+	Context("CallChainP function", func() {
+		Context("with a nil chained error", func() {
+			It("Should swap the values at the given pointers with the return values of the function and return nil error on sucess", func() {
+				var stres string
+				var errres error
+				response := []interface{}{
+					&stres,
+					&errres,
+				}
+				err := CallChainP(nil, response, successMultiReturn, "random")
+				Ω(sampleSuccessReturn).Should(Equal(stres))
+				Ω(err).Should(BeNil())
+			})
+
+			It("Should not swap the values at the given pointers with the return values of the function and return non-nil error on failure", func() {
+				var stres string
+				var errres error
+				response := []interface{}{
+					&stres,
+					&errres,
+				}
+				err := CallChainP(nil, response, failMultiReturn, "random")
+				Ω(sampleFailureReturn).ShouldNot(Equal(stres))
+				Ω(err).ShouldNot(BeNil())
+			})
+
+		})
+	})
 
 	Context("CallChain function", func() {
 		Context("with a non nil chained error", func() {
