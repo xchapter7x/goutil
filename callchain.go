@@ -36,11 +36,15 @@ type Chain struct {
 }
 
 func (s *Chain) Call(functor interface{}, iargs ...interface{}) (responseInterfaceArray []interface{}, err error) {
-	return CallChain(s.err, functor, iargs...)
+	responseInterfaceArray, err = CallChain(s.err, functor, iargs...)
+	s.err = err
+	return
 }
 
 func (s *Chain) CallP(responseInterfaceArray []interface{}, functor interface{}, iargs ...interface{}) (err error) {
-	return CallChainP(s.err, responseInterfaceArray, functor, iargs...)
+	err = CallChainP(s.err, responseInterfaceArray, functor, iargs...)
+	s.err = err
+	return
 }
 
 func CallChain(preverr error, functor interface{}, iargs ...interface{}) (responseInterfaceArray []interface{}, err error) {
