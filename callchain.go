@@ -27,23 +27,23 @@ func findErrorValue(responseInterfaceArray []interface{}) (err error) {
 
 func NewChain(err error) (chain *Chain) {
 	return &Chain{
-		err: err,
+		Error: err,
 	}
 }
 
 type Chain struct {
-	err error
+	Error error
 }
 
 func (s *Chain) Call(functor interface{}, iargs ...interface{}) (responseInterfaceArray []interface{}, err error) {
-	responseInterfaceArray, err = CallChain(s.err, functor, iargs...)
-	s.err = err
+	responseInterfaceArray, err = CallChain(s.Error, functor, iargs...)
+	s.Error = err
 	return
 }
 
 func (s *Chain) CallP(responseInterfaceArray []interface{}, functor interface{}, iargs ...interface{}) (err error) {
-	err = CallChainP(s.err, responseInterfaceArray, functor, iargs...)
-	s.err = err
+	err = CallChainP(s.Error, responseInterfaceArray, functor, iargs...)
+	s.Error = err
 	return
 }
 
