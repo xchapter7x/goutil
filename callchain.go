@@ -25,6 +25,24 @@ func findErrorValue(responseInterfaceArray []interface{}) (err error) {
 	return
 }
 
+func NewChain(err error) (chain *Chain) {
+	return &Chain{
+		err: err,
+	}
+}
+
+type Chain struct {
+	err error
+}
+
+func (s *Chain) Call(functor interface{}, iargs ...interface{}) (responseInterfaceArray []interface{}, err error) {
+	return CallChain(s.err, functor, iargs...)
+}
+
+func (s *Chain) CallP(responseInterfaceArray []interface{}, functor interface{}, iargs ...interface{}) (err error) {
+	return CallChainP(s.err, responseInterfaceArray, functor, iargs...)
+}
+
 func CallChain(preverr error, functor interface{}, iargs ...interface{}) (responseInterfaceArray []interface{}, err error) {
 	if err = preverr; err == nil {
 		args := createReflectValueArgsArray(iargs)

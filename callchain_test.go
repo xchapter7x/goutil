@@ -52,7 +52,8 @@ var _ = Describe("CallChain", func() {
 					&stres,
 					&errres,
 				}
-				err := CallChainP(nil, response, successMultiReturn, "random")
+				c := NewChain(nil)
+				err := c.CallP(response, successMultiReturn, "random")
 				Ω(sampleSuccessReturn).Should(Equal(stres))
 				Ω(err).Should(BeNil())
 			})
@@ -64,7 +65,8 @@ var _ = Describe("CallChain", func() {
 					&stres,
 					&errres,
 				}
-				err := CallChainP(nil, response, failMultiReturn, "random")
+				c := NewChain(nil)
+				err := c.CallP(response, failMultiReturn, "random")
 				Ω(sampleFailureReturn).ShouldNot(Equal(stres))
 				Ω(err).ShouldNot(BeNil())
 			})
@@ -76,26 +78,30 @@ var _ = Describe("CallChain", func() {
 		Context("with a non nil chained error", func() {
 			It("Should return a error equal to the chained error", func() {
 				e := fmt.Errorf("new error")
-				_, err := CallChain(e, failNoArgMultiReturn, "testing_error")
+				c := NewChain(e)
+				_, err := c.Call(failNoArgMultiReturn, "testing_error")
 				Ω(err).ShouldNot(BeNil())
 				Ω(err).Should(Equal(e))
 			})
 
 			It("Should return an error, skipping any call including failed calls, and return the original error", func() {
 				e := fmt.Errorf("new error")
-				_, err := CallChain(e, successMultiReturn, "testing_error")
+				c := NewChain(e)
+				_, err := c.Call(successMultiReturn, "testing_error")
 				Ω(err).ShouldNot(Equal(controlError))
 			})
 
 			It("Should skip the function if passed an error - even a success call function", func() {
 				e := fmt.Errorf("new error")
-				CallChain(e, successMultiReturn, "testing_error")
+				c := NewChain(e)
+				c.Call(successMultiReturn, "testing_error")
 				Ω(callCount).Should(Equal(0))
 			})
 
 			It("Should skip the function if passed an error - even a failed call function", func() {
 				e := fmt.Errorf("new error")
-				CallChain(e, successMultiReturn, "testing_error")
+				c := NewChain(e)
+				c.Call(successMultiReturn, "testing_error")
 				Ω(callCount).Should(Equal(0))
 			})
 
@@ -104,30 +110,35 @@ var _ = Describe("CallChain", func() {
 		Context("with a nil chained error", func() {
 			Context("on success", func() {
 				It("Should return a nil error w/ multiple return functions and arguments", func() {
-					_, err := CallChain(nil, successMultiReturn, "testing_error")
+					c := NewChain(nil)
+					_, err := c.Call(successMultiReturn, "testing_error")
 					Ω(err).Should(BeNil())
 				})
 
 				It("Should return a nil error w/ no arguments", func() {
-					_, err := CallChain(nil, successNoArgMultiReturn)
+					c := NewChain(nil)
+					_, err := c.Call(successNoArgMultiReturn)
 					Ω(err).Should(BeNil())
 				})
 
 				It("Should return a nil error w/ error values returned", func() {
-					_, err := CallChain(nil, runNoError)
+					c := NewChain(nil)
+					_, err := c.Call(runNoError)
 					Ω(err).Should(BeNil())
 				})
 			})
 
 			Context("on failure", func() {
 				It("Should return a non nil error w/ multiple return values", func() {
-					_, err := CallChain(nil, failMultiReturn, "testing_error")
+					c := NewChain(nil)
+					_, err := c.Call(failMultiReturn, "testing_error")
 					Ω(err).ShouldNot(BeNil())
 					Ω(err).Should(Equal(controlError))
 				})
 
 				It("Should return a non nil error w/ no args", func() {
-					_, err := CallChain(nil, failNoArgMultiReturn)
+					c := NewChain(nil)
+					_, err := c.Call(failNoArgMultiReturn)
 					Ω(err).ShouldNot(BeNil())
 					Ω(err).Should(Equal(controlError))
 				})
