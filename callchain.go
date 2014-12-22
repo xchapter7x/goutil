@@ -35,6 +35,10 @@ type Chain struct {
 	Error error
 }
 
+func (s *Chain) Returns(args ...interface{}) []interface{} {
+	return args
+}
+
 func (s *Chain) Call(functor interface{}, iargs ...interface{}) (responseInterfaceArray []interface{}, err error) {
 	responseInterfaceArray, err = CallChain(s.Error, functor, iargs...)
 	s.Error = err

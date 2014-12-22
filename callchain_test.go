@@ -48,12 +48,8 @@ var _ = Describe("CallChain", func() {
 			It("Should swap the values at the given pointers with the return values of the function and return nil error on sucess", func() {
 				var stres string
 				var errres error
-				response := []interface{}{
-					&stres,
-					&errres,
-				}
 				c := NewChain(nil)
-				err := c.CallP(response, successMultiReturn, "random")
+				err := c.CallP(c.Returns(&stres, &errres), successMultiReturn, "random")
 				Ω(sampleSuccessReturn).Should(Equal(stres))
 				Ω(err).Should(BeNil())
 			})
