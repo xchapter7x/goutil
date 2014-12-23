@@ -22,6 +22,14 @@ func UnpackArray(packedValues []interface{}, unpackedPointers []interface{}) (er
 	return
 }
 
+type unpackEmpty struct{}
+
+func (s unpackEmpty) Empty() {}
+
+func Empty() *unpackEmpty {
+	return &unpackEmpty{}
+}
+
 func mapPackedValuesToUnpackedPointers(packedValues []interface{}, unpackedPointers []interface{}) (err error) {
 	for i, packedValue := range packedValues {
 		ptrVal := reflect.ValueOf((unpackedPointers)[i])
@@ -44,6 +52,9 @@ func mapPackedValuesToUnpackedPointers(packedValues []interface{}, unpackedPoint
 			e := fmt.Sprintf("%s", packedValue)
 			*((unpackedPointers)[i].(*error)) = fmt.Errorf(e)
 			(unpackedPointers)[i] = fmt.Errorf(e)
+
+		} else if ptrVal.Type() == reflect.ValueOf(Empty()).Type() {
+			//do nothing
 
 		} else if packedValueReflectValue.IsValid() {
 			err = fmt.Errorf("Incorrect pointer type %s != %s at index %s %s %s %s", ptrElemKind, packedValueReflectValueKind, i, ptrVal.Type(), ptrElem, packedValueReflectValue.Type())

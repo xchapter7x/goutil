@@ -51,5 +51,16 @@ var _ = Describe("unpack package", func() {
 			Ω(func() { Unpack(arr, &internalA) }).ShouldNot(Panic())
 		})
 
+		It("Should not panic if called with empty", func() {
+			arr := []interface{}{controlANew}
+			Ω(func() { Unpack(arr, Empty()) }).ShouldNot(Panic())
+		})
+
+		It("Should not error if called with empty", func() {
+			arr := []interface{}{controlANew}
+			err := Unpack(arr, Empty())
+			Ω(err).Should(BeNil())
+		})
+
 	})
 })
