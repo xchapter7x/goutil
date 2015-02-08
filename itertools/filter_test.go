@@ -20,7 +20,7 @@ var _ = Describe("Filter", func() {
 	}
 	var output chan Pair
 
-	Context("called w/ non standard function format", func() {
+	Context("called w/ 2 typed argument signature", func() {
 		BeforeEach(func() {
 			output = Filter(iterable, func(i int, v string) bool {
 				return strings.HasPrefix(v, "t")
@@ -36,6 +36,57 @@ var _ = Describe("Filter", func() {
 			val2 := <-output
 			Ω(arrayContains(val1.Second.(string), iterable)).Should(BeTrue())
 			Ω(arrayContains(val2.Second.(string), iterable)).Should(BeTrue())
+		})
+	})
+
+	Context("called w/ 1 typed argument signature", func() {
+		BeforeEach(func() {
+			output = Filter(iterable, func(i int) bool {
+				return i == 1
+			})
+		})
+
+		It("should contain the correct number of elements", func() {
+			Ω(len(output)).Should(Equal(1))
+		})
+
+		It("should contain a value match from the control iterable", func() {
+			val := <-output
+			Ω(arrayContains(val.Second.(string), iterable)).Should(BeTrue())
+		})
+	})
+
+	Context("called w/ no argument signature", func() {
+		BeforeEach(func() {
+			output = Filter(iterable, func() bool {
+				return true
+			})
+		})
+
+		It("should contain the correct number of elements", func() {
+			Ω(len(output)).Should(Equal(len(iterable)))
+		})
+	})
+
+	Context("called w/ invalid argument signature", func() {
+		Context("too many arguments", func() {
+			It("should panic", func() {
+				Ω(func() {
+					Filter(iterable, func(a, b, c string) bool {
+						return true
+					})
+				}).Should(Panic())
+			})
+		})
+
+		Context("non-bool return", func() {
+			It("should panic", func() {
+				Ω(func() {
+					Filter(iterable, func(i int, v string) string {
+						return v
+					})
+				}).Should(Panic())
+			})
 		})
 	})
 })
