@@ -6,6 +6,11 @@ import (
 	"sync"
 )
 
+var (
+	NotFuncError    = errors.New("not a func type")
+	InvalidArgError = errors.New("invalid argument count")
+)
+
 func CEach(iter, f interface{}) {
 	if err := validateEachFunction(f); err == nil {
 		var wg sync.WaitGroup
@@ -32,18 +37,21 @@ func Each(iter, f interface{}) {
 }
 
 func runEach(f interface{}, p Pair) {
+	maxArgLen := 2
 	function := reflect.TypeOf(f)
 	pairArr := []interface{}{p.First, p.Second}
 	args := []reflect.Value{}
 
-	for i := 0; i < 2; i++ {
+	for i := 0; i < maxArgLen; i++ {
 		switch function.NumIn() {
 		case 1:
-			if reflect.TypeOf(pairArr[i]).ConvertibleTo(function.In(0)) {
-				arg := reflect.ValueOf(pairArr[i]).Convert(function.In(0))
+			firstArg := 0
+
+			if reflect.TypeOf(pairArr[i]).ConvertibleTo(function.In(firstArg)) {
+				arg := reflect.ValueOf(pairArr[i]).Convert(function.In(firstArg))
 				args = []reflect.Value{arg}
 			}
-		case 2:
+		case maxArgLen:
 			arg := reflect.ValueOf(pairArr[i]).Convert(function.In(i))
 			args = append(args, arg)
 		}
@@ -55,11 +63,11 @@ func validateEachFunction(f interface{}) (err error) {
 	function := reflect.TypeOf(f)
 
 	if function.Kind() != reflect.Func {
-		err = errors.New("not a func type")
+		err = NotFuncError
 	}
 
 	if function.NumIn() > 2 {
-		err = errors.New("invalid argument count")
+		err = InvalidArgError
 	}
 	return
 }
