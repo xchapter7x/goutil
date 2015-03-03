@@ -33,7 +33,7 @@ var _ = Describe("Filter", func() {
 	})
 
 	Context("called with a non-convertable type argument func signature", func() {
-		It("should convert the type and not panic", func() {
+		It("should not convert the type and just panic", func() {
 			Ω(func() {
 				Each(iterable, func(v int) {})
 			}).Should(Panic())
