@@ -21,7 +21,7 @@ var _ = Describe("Filter", func() {
 	Context("called w/ 2 typed argument signature", func() {
 		BeforeEach(func() {
 			output = 0
-			Each(iterable, func(i int, v string) bool {
+			Each(iterable, func(v string) bool {
 				output++
 				return strings.HasPrefix(v, "t")
 			})
@@ -32,17 +32,55 @@ var _ = Describe("Filter", func() {
 		})
 	})
 
-	Context("called w/ 1 typed argument signature", func() {
+	Context("called with a non-convertable type argument func signature", func() {
+		It("should convert the type and not panic", func() {
+			Ω(func() {
+				Each(iterable, func(v int) {})
+			}).Should(Panic())
+		})
+	})
+
+	Context("called with a convertable type argument func signature", func() {
+		It("should convert the type and not panic", func() {
+			Ω(func() {
+				Each(iterable, func(_, v string) {})
+			}).ShouldNot(Panic())
+		})
+	})
+
+	Context("called w/ 2 convertable typed argument signature", func() {
+		var result bool
+
 		BeforeEach(func() {
 			output = 0
-			Each(iterable, func(v string) bool {
+			Each(iterable, func(_, v string) bool {
 				output++
-				return strings.HasPrefix(v, "t")
+				result = strings.HasPrefix(v, "t")
+				return result
 			})
 		})
 
 		It("should contain the correct number of elements", func() {
 			Ω(output).Should(Equal(len(iterable)))
+			Ω(result).Should(BeTrue())
+		})
+	})
+
+	Context("called w/ 1 typed argument signature", func() {
+		var result bool
+
+		BeforeEach(func() {
+			output = 0
+			Each(iterable, func(v string) bool {
+				output++
+				result = strings.HasPrefix(v, "t")
+				return result
+			})
+		})
+
+		It("should contain the correct number of elements", func() {
+			Ω(output).Should(Equal(len(iterable)))
+			Ω(result).Should(BeTrue())
 		})
 	})
 })

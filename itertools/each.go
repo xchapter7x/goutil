@@ -37,24 +37,18 @@ func Each(iter, f interface{}) {
 }
 
 func runEach(f interface{}, p Pair) {
-	maxArgLen := 2
 	function := reflect.TypeOf(f)
-	pairArr := []interface{}{p.First, p.Second}
 	args := []reflect.Value{}
 
-	for i := 0; i < maxArgLen; i++ {
-		switch function.NumIn() {
-		case 1:
-			firstArg := 0
+	switch function.NumIn() {
+	case 1:
+		val := reflect.ValueOf(p.Second).Convert(function.In(0))
+		args = []reflect.Value{val}
 
-			if reflect.TypeOf(pairArr[i]).ConvertibleTo(function.In(firstArg)) {
-				arg := reflect.ValueOf(pairArr[i]).Convert(function.In(firstArg))
-				args = []reflect.Value{arg}
-			}
-		case maxArgLen:
-			arg := reflect.ValueOf(pairArr[i]).Convert(function.In(i))
-			args = append(args, arg)
-		}
+	default:
+		val1 := reflect.ValueOf(p.First).Convert(function.In(0))
+		val2 := reflect.ValueOf(p.Second).Convert(function.In(1))
+		args = []reflect.Value{val1, val2}
 	}
 	reflect.ValueOf(f).Call(args)
 }
